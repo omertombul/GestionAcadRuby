@@ -18,6 +18,11 @@ class Cours
                  "Titre vide: '#{titre}'" )
     DBC.require( nb_credits.to_i > 0,
                  "Nb. credits invalides: #{nb_credits}!?" )
+    @sigle = sigle
+    @titre = titre
+    @nb_credits = nb_credits
+    @prealables = prealables
+    @actif = actif
 
     # A COMPLETER.
   end

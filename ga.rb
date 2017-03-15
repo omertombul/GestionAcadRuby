@@ -83,15 +83,26 @@ end
 ###################################################
 
 def definir_depot
-  # A COMPLETER!
+  
+  #si ARGV[0] contient --depot= alors on assigne depot a apres le = 
+  
+  if ARGV[0].include?("--depot=") 
+    dep = ARGV[0].split("=")
+    depot = dep[1]
+    ARGV.shift
+  end
   depot ||= DEPOT_DEFAUT
-
   depot
 end
 
 def init( depot )
-  # A COMPLETER!
 
+ if ARGV.length > 0
+  if ARGV[0].include?("--detruire")
+    detruire = true
+    ARGV.shift
+  end
+end
   if File.exists? depot
     if detruire
       FileUtils.rm_f depot # On detruit le depot existant si --detruire est specifie.
@@ -104,19 +115,31 @@ def init( depot )
   FileUtils.touch depot
 end
 
+
 def charger_les_cours( depot )
   erreur "Le fichier '#{depot}' n'existe pas!" unless File.exists? depot
-
+  puts "charger_les_cours"
+  # ARGF.each do |x|
+  #   puts x
+  # end
+  while ARGF.gets
+  puts $_
+  end
+  puts depot
   # On lit les cours du fichier.
   IO.readlines( depot ).map do |ligne|
+    puts "dans io"
     # On ignore le saut de ligne avec chomp.
     CoursTexte.creer_cours( ligne )
   end
 end
 
+
 def sauver_les_cours( depot, les_cours )
   # On cree une copie de sauvegarde.
   FileUtils.cp depot, "#{depot}.bak"
+  puts "sauver_les_cours"
+  puts les_cours
 
   # On sauve les cours dans le fichier.
   #
@@ -127,6 +150,7 @@ def sauver_les_cours( depot, les_cours )
   #
   File.open( depot, "w" ) do |fich|
     les_cours.each do |c|
+      puts c
       CoursTexte.sauver_cours( fich, c )
     end
   end
@@ -142,6 +166,8 @@ def lister( les_cours )
 end
 
 def ajouter( les_cours )
+  puts "dans ajoute " 
+  puts les_cours
   [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
