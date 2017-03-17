@@ -25,7 +25,7 @@ class Cours
      @prealables = prealables
      @actif = actif
 
-    # A COMPLETER.
+    
   end
   attr_reader :sigle , :titre, :nb_credits,:prealables
   attr_writer :actif
@@ -68,7 +68,7 @@ class Cours
   def desactiver
     DBC.require( actif?, "Cours pas actif: #{self}" )
     @actif = false
-    # A COMPLETER.
+    
   end
 
   #
@@ -77,7 +77,7 @@ class Cours
   def activer
     DBC.require( !actif?, "Cours deja actif: #{self}" )
     @actif = true
-    # A COMPLETER.
+    
   end
 
   #
@@ -85,6 +85,6 @@ class Cours
   #
   def actif?
     @actif
-    # A COMPLETER.
+    
   end
 end
