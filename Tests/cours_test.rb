@@ -10,7 +10,7 @@ describe Cours do
   let(:mat3143) { Cours.new( :MAT3143, "Methodes formelles", 3, :INF1120, :INF2120, actif: false ) }
 
   describe ".new" do
-    it_ "cree un cours sans prealable avec les attributs appropries" do
+     _it_ "cree un cours sans prealable avec les attributs appropries" do
       inf1120.sigle.must_equal :INF1120
       inf1120.titre.must_equal 'Programmation I'
       inf1120.nb_credits.must_equal 3
@@ -48,19 +48,19 @@ describe Cours do
   end
 
   describe "#to_s -- tests_base" do
-    _it_ "genere par defaut une forme simple avec des guillemets pour titre" do
+    it_ "genere par defaut une forme simple avec des guillemets pour titre" do
       inf1120.to_s.must_equal 'INF1120 "Programmation I" ()'
     end
 
-    _it_ "genere par defaut une forme simple avec ? pour cours inactif" do
+    it_ "genere par defaut une forme simple avec ? pour cours inactif" do
       mat3143.to_s.must_equal 'MAT3143? "Methodes formelles" (INF1120:INF2120)'
     end
 
-    _it_ "genere par defaut une forme simple avec des guillemets pour titre et avec prealables" do
+    it_ "genere par defaut une forme simple avec des guillemets pour titre et avec prealables" do
       inf2120.to_s.must_equal 'INF2120 "Programmation II" (INF1120)'
     end
 
-    _it_ "produit_ la chaine indiquee quand aucun format n'est specifie" do
+    it_ "produit_ la chaine indiquee quand aucun format n'est specifie" do
       inf1120.to_s( "ABC" ).must_equal 'ABC'
     end
 

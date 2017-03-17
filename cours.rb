@@ -10,7 +10,7 @@ require_relative 'motifs'
 class Cours
   include Comparable
 
-
+  #attr_accessor :sigle
   def initialize( sigle, titre, nb_credits, *prealables, actif: true )
     DBC.require( sigle.kind_of?(Symbol) && /^#{Motifs::SIGLE}$/ =~ sigle,
                  "Sigle incorrect: #{sigle}!?" )
@@ -18,15 +18,17 @@ class Cours
                  "Titre vide: '#{titre}'" )
     DBC.require( nb_credits.to_i > 0,
                  "Nb. credits invalides: #{nb_credits}!?" )
-    attr_accessor :sigle
-    # @sigle = sigle
-    # @titre = titre
-    # @nb_credits = nb_credits
-    # @prealables = prealables
-    # @actif = actif
+    
+    @sigle = sigle
+    @titre = titre
+    @nb_credits = nb_credits
+     @prealables = prealables
+     @actif = actif
 
     # A COMPLETER.
   end
+  attr_reader :sigle , :titre, :nb_credits,:prealables
+  attr_writer :actif
 
   #
   # Formate un cours selon les indications specifiees par le_format:
@@ -65,7 +67,7 @@ class Cours
   #
   def desactiver
     DBC.require( actif?, "Cours pas actif: #{self}" )
-
+    @actif = false
     # A COMPLETER.
   end
 
@@ -74,7 +76,7 @@ class Cours
   #
   def activer
     DBC.require( !actif?, "Cours deja actif: #{self}" )
-
+    @actif = true
     # A COMPLETER.
   end
 
@@ -82,6 +84,7 @@ class Cours
   # Determine si le cours est actif ou non.
   #
   def actif?
+    @actif
     # A COMPLETER.
   end
 end
