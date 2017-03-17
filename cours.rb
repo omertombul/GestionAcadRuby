@@ -27,7 +27,7 @@ class Cours
 
     
   end
-  attr_reader :sigle , :titre, :nb_credits,:prealables
+  attr_reader :sigle , :titre, :nb_credits, :prealables
   attr_writer :actif
 
   #
@@ -60,6 +60,7 @@ class Cours
   #
   def <=>( autre )
     # A COMPLETER.
+   self.sigle <=> autre.sigle
   end
 
   #
