@@ -49,7 +49,19 @@ class Cours
                     actif? ? "" : "?",
                     titre,
                     prealables.join(separateur_prealables))
-    end
+     
+    elsif !le_format.include? "%"
+
+      return le_format
+    else
+	 le_format = le_format.gsub("%S","#{sigle}")
+         le_format = le_format.gsub("%T","#{titre}")
+         le_format = le_format.gsub("%C","#{nb_credits}")
+	 le_format = le_format.gsub("%P","#{prealables.join(separateur_prealables)}")
+	 le_format = le_format.gsub("%A","#{actif?}")
+
+   return  le_format
+   end 
 
     fail "Cas non traite: to_s( #{le_format}, #{separateur_prealables} )"
   end
