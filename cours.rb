@@ -22,9 +22,8 @@ class Cours
     @sigle = sigle
     @titre = titre
     @nb_credits = nb_credits
-     @prealables = prealables
-     @actif = actif
-
+    @prealables = prealables
+    @actif = actif
     
   end
   attr_reader :sigle , :titre, :nb_credits, :prealables
@@ -41,8 +40,10 @@ class Cours
   # Des indications de largeur, justification, etc. peuvent aussi etre
   # specifiees, par exemple, %-10T, %-.10T, etc.
   #
+
   def to_s( le_format = nil, separateur_prealables = CoursTexte::SEPARATEUR_PREALABLES )
-    # Format simple par defaut, pour les cas de tests de base.a
+    # Format simple par defaut, pour les cas de tests de base.
+    puts le_format
     if le_format.nil?
       return format("%s%s \"%-10s\" (%s)",
                     sigle,
@@ -60,12 +61,11 @@ class Cours
 	 le_format = le_format.gsub("%P","#{prealables.join(separateur_prealables)}")
 	 le_format = le_format.gsub("%A","#{actif?}")
 
-   return  le_format
-   end 
+     return  le_format
+   end
 
     fail "Cas non traite: to_s( #{le_format}, #{separateur_prealables} )"
   end
-
 
   #
   # Ordonne les cours selon le sigle.

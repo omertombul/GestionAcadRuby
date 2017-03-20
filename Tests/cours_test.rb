@@ -72,7 +72,7 @@ describe Cours do
       inf1120.to_s( "titre = '%T' => %S (%C)" ).must_equal "titre = 'Programmation I' => INF1120 (3)"
     end
 
-    it_ "produit par defaut le meme resultat que '%S \"%-10T\" (%P)'" do
+    _it_ "produit par defaut le meme resultat que '%S \"%-10T\" (%P)'" do
       inf1120.to_s( '%S "%-10T" (%P)' ).must_equal inf1120.to_s
     end
   end
