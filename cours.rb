@@ -9,8 +9,8 @@ require_relative 'motifs'
 #
 class Cours
   include Comparable
-
-  #attr_accessor :sigle
+ 
+  
   def initialize( sigle, titre, nb_credits, *prealables, actif: true )
     DBC.require( sigle.kind_of?(Symbol) && /^#{Motifs::SIGLE}$/ =~ sigle,
                  "Sigle incorrect: #{sigle}!?" )
@@ -43,7 +43,7 @@ class Cours
 
   def to_s( le_format = nil, separateur_prealables = CoursTexte::SEPARATEUR_PREALABLES )
     # Format simple par defaut, pour les cas de tests de base.
-    puts le_format
+    
     if le_format.nil?
       return format("%s%s \"%-10s\" (%s)",
                     sigle,
@@ -54,9 +54,11 @@ class Cours
     elsif !le_format.include? "%"
 
       return le_format
-    else
-	 le_format = le_format.gsub("%S","#{sigle}")
-         le_format = le_format.gsub("%T","#{titre}")
+
+    elsif !(/%[^PCATS-]/ =~ le_format)
+	 le_format = le_format.gsub(/%-*\d*S/,"#{sigle}")
+	 le_format = le_format.gsub(/%.*\d*S/,"#{sigle}")
+         le_format = le_format.gsub(/%-*\d*T/,"#{titre}")
          le_format = le_format.gsub("%C","#{nb_credits}")
 	 le_format = le_format.gsub("%P","#{prealables.join(separateur_prealables)}")
 	 le_format = le_format.gsub("%A","#{actif?}")
@@ -101,3 +103,4 @@ class Cours
     
   end
 end
+0
