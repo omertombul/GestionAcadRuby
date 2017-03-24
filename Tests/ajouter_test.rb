@@ -34,7 +34,7 @@ describe "GestionAcademique" do
       end
     end
 
-    it_ "signale une erreur lorsqu'un prealable est invalide au niveau du sigle", :intermediaire do
+      it_ "signale une erreur lorsqu'un prealable est invalide au niveau du sigle", :intermediaire do
       avec_fichier bd, [] do
         genere_erreur( /Sigle.*incorrect/ ) do
           ga( 'ajouter INF1120 "Programmation I" 3 IF0000' )
@@ -42,7 +42,7 @@ describe "GestionAcademique" do
       end
     end
 
-    _it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inexistant", :intermediaire do
+    it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inexistant", :intermediaire do
       avec_fichier bd, [] do
         genere_erreur( /Prealable.*invalide/ ) do
           ga( 'ajouter INF1120 "Programmation I" 3 INF1000' )
@@ -50,7 +50,7 @@ describe "GestionAcademique" do
       end
     end
 
-    _it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inactif", :intermediaire do
+    it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inactif", :intermediaire do
       avec_fichier bd, [] do
         genere_erreur( /Prealable.*invalide/ ) do
           ga( 'ajouter INF1120 "Programmation I" 3 INF3143' )

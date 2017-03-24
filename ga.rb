@@ -8,6 +8,7 @@ require 'fileutils'
 require_relative 'cours'
 require_relative 'cours-texte'
 require_relative 'motifs'
+require_relative 'dbc'
 
 ###################################################
 # CONSTANTES GLOBALES.
@@ -160,9 +161,20 @@ def ajouter( les_cours )
 
   sigle, titre,nb_credits, *prealables = ARGV.to_a
   ARGV.clear
-  
+ 
+  sigle_valide(sigle)
+
+  if prealables.length > 0
+    for prea in prealables do
+        sigle_valide( prea )
+        prea_valide(prea, les_cours)
+      end
+  end
+
   les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
   
+    
+
   return [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
@@ -190,7 +202,26 @@ def prealables( les_cours )
   [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
+#######################################################
+# Fonctions utilitaires
+#######################################################
+def sigle_valide( sigle )
+  DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Sigle incorrect: #{sigle}!?" )
+end
 
+def prea_valide( prea , les_cours )
+  if les_cours.size == 0
+    fail "Prealables invalide: #{prea}"
+  else
+  for cours in les_cours do
+     
+    if cours.sigle.to_s(prea)
+      
+      fail "Prealables invalide: #{prea}"
+    end
+  end
+  end
+end
 #######################################################
 # Les differentes commandes possibles.
 #######################################################
