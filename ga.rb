@@ -193,7 +193,29 @@ def ajouter( les_cours )
 end
 
 def nb_credits( les_cours )
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+   nb_cr = 0 
+   sig = ARGV.to_a
+   if ARGV.size == 0
+     puts "0"
+   elsif
+     for s in sig do
+      sigle_valide(s)
+      trouve = false
+      for cours in les_cours do
+        if cours.sigle.to_s =~ /#{s.to_s}/
+         nb_cr = nb_cr + 3
+         trouve = true 
+        end
+      end
+      if !trouve
+        erreur "Aucun cours: #{s}"
+      end
+      end
+      puts nb_cr
+   end
+
+   ARGV.clear
+  return [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 def supprimer( les_cours )
