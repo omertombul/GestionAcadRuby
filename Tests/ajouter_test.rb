@@ -7,7 +7,7 @@ describe "GestionAcademique" do
   let(:separateur_prealables)  { CoursTexte::SEPARATEUR_PREALABLES }
 
   describe "ajouter" do
-    it_ "ajoute dans un fichier vide" do
+  it_ "ajoute dans un fichier vide" do
       nouveau_contenu = avec_fichier bd, [], :conserver do
         execute_sans_sortie_ou_erreur do
           ga( 'ajouter INF1120 "Programmation I" 3' )
@@ -34,7 +34,7 @@ describe "GestionAcademique" do
       end
     end
 
-      it_ "signale une erreur lorsqu'un prealable est invalide au niveau du sigle", :intermediaire do
+    it_ "signale une erreur lorsqu'un prealable est invalide au niveau du sigle", :intermediaire do
       avec_fichier bd, [] do
         genere_erreur( /Sigle.*incorrect/ ) do
           ga( 'ajouter INF1120 "Programmation I" 3 IF0000' )
@@ -61,7 +61,7 @@ describe "GestionAcademique" do
     context "banque de cours avec plusieurs cours" do
       let(:lignes) { IO.readlines("Tests/cours.txt.5+1") }
 
-      _it_ "ajoute un cours s'il n'existe pas" do
+      it_ "ajoute un cours s'il n'existe pas" do
         sigle = 'INF3143'
         titre = 'Modelisation et specification formelle'
         nb_credits = '3'
@@ -80,7 +80,7 @@ describe "GestionAcademique" do
       end
 
 
-      _it_ "signale une erreur lorsqu'un prealable est incorrect", :intermediaire do
+      it_ "signale une erreur lorsqu'un prealable est incorrect", :intermediaire do
         avec_fichier bd, [] do
           genere_erreur( /Prealable.*invalide/ ) do
             ga( 'ajouter INF2160 "Paradigmes de programmation" 3 INF2120 INF200' )
@@ -88,7 +88,7 @@ describe "GestionAcademique" do
         end
       end
 
-      _it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inexistant", :intermediaire do
+      it_ "signale une erreur lorsqu'un prealable est invalide parce qu'inexistant", :intermediaire do
         avec_fichier bd, [] do
           genere_erreur( /Prealable.*invalide/ ) do
             ga( 'ajouter INF2160 "Paradigmes de programmation" 3 INF2120 INF2100' )
@@ -96,7 +96,7 @@ describe "GestionAcademique" do
         end
       end
 
-      _it_ "signale une erreur lorsqu'le cours existe deja", :intermediaire_ do
+      it_ "signale une erreur lorsqu'le cours existe deja", :intermediaire_ do
         avec_fichier bd, lignes do
           genere_erreur( /meme sigle existe/ ) do
             ga( 'ajouter INF1130 "Mathematiques" 3' )
@@ -109,14 +109,14 @@ describe "GestionAcademique" do
       let(:lignes) { IO.readlines("Tests/cours.txt.5+1") }
       let(:fichier) { '.foo.txt' }
 
-      _it_ "signale une erreur lorsque le depot est inexistant", :intermediaire do
+      it_ "signale une erreur lorsque le depot est inexistant", :intermediaire do
         FileUtils.rm_f fichier
         genere_erreur( /fichier.*#{fichier}.*existe pas/ ) do
           ga( "--depot=#{fichier} ajouter INF120 'Programmation I' 3 INF0000 XXX" )
         end
       end
 
-      _it_ "ajoute un cours lorsqu'il n'existe pas", :intermediaire do
+      it_ "ajoute un cours lorsqu'il n'existe pas", :intermediaire do
         sigle = 'INF3143'
         titre = 'Modelisation et specification formelle'
         nb_credits = '3'

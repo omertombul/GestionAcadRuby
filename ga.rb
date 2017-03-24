@@ -158,11 +158,12 @@ end
 
 def ajouter( les_cours )
 
-
+  if ARGV.size > 0
   sigle, titre,nb_credits, *prealables = ARGV.to_a
   ARGV.clear
- 
+  
   sigle_valide(sigle)
+  cours_existe(sigle, les_cours)
 
   if prealables.length > 0
     for prea in prealables do
@@ -172,7 +173,7 @@ def ajouter( les_cours )
   end
 
   les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
-  
+  end
     
 
   return [les_cours, nil] # A MODIFIER/COMPLETER!
@@ -214,14 +215,32 @@ def prea_valide( prea , les_cours )
     fail "Prealables invalide: #{prea}"
   else
   for cours in les_cours do
-     
-    if cours.sigle.to_s(prea)
-      
-      fail "Prealables invalide: #{prea}"
+     #puts cours
+     #puts cours.to_s.class
+
+    if cours.sigle.to_s =~ /#{prea.to_s}/
+      prea_existe = true
+      end
     end
   end
+  if !prea_existe
+    fail "Prealables invalide: #{prea}"
   end
 end
+
+def cours_existe ( sigle, les_cours)
+  for cours in les_cours do
+    if cours.sigle.to_s =~ /#{sigle.to_s}/
+      cours_existe = true
+    end
+  end
+  if cours_existe
+
+    fail "Cours avec meme sigle existe deja: #{sigle}"
+  end
+end
+
+
 #######################################################
 # Les differentes commandes possibles.
 #######################################################
