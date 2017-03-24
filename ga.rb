@@ -158,25 +158,38 @@ end
 
 def ajouter( les_cours )
 
+     
   if ARGV.size > 0
-  sigle, titre,nb_credits, *prealables = ARGV.to_a
-  ARGV.clear
-  
-  sigle_valide(sigle)
-  cours_existe(sigle, les_cours)
+    sigle, titre,nb_credits, *prealables = ARGV.to_a
+    ARGV.clear  
+  elsif not STDIN.tty? and not STDIN.closed?
+     cour = ARGF.read
+     sigle = cour.match(Motifs::SIGLE).to_s 
+     cour.slice! "#{sigle}"
+     titre = cour.match(/["'][^"]+["']/).to_s
+     titre.slice! "\""
+     titre.slice! "\""
+     cour.slice! "\"#{titre}\""
+     nb_credits = cour.match(/\d/).to_s
+     cour.slice! "#{nb_credits}"
+     cour.strip!
+     prealables = cour.split("  ")
+  end
 
-  if prealables.length > 0
-    for prea in prealables do
+
+    sigle_valide(sigle) 
+    cours_existe(sigle, les_cours)
+
+    if !prealables.nil? and prealables.size > 0
+      for prea in prealables do
         sigle_valide( prea )
         prea_valide(prea, les_cours)
       end
-  end
+    end
 
-  les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
-  end
-    
+    les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
 
-  return [les_cours, nil] # A MODIFIER/COMPLETER!
+    return [les_cours, nil] # A Ameliorer
 end
 
 def nb_credits( les_cours )
@@ -215,9 +228,6 @@ def prea_valide( prea , les_cours )
     fail "Prealables invalide: #{prea}"
   else
   for cours in les_cours do
-     #puts cours
-     #puts cours.to_s.class
-
     if cours.sigle.to_s =~ /#{prea.to_s}/
       prea_existe = true
       end
