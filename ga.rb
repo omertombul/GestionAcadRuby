@@ -227,11 +227,43 @@ def trouver( les_cours )
 end
 
 def desactiver( les_cours )
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+   
+    sigle = ARGV.to_a
+    sigle_invalid(sigle[0])
+    cours_inexiste(sigle[0], les_cours)
+    for cour in les_cours do
+     if cour.sigle.to_s =~ /#{sigle.to_s}/
+	if cour.actif? == "ACTIF"
+           cour.desactiver
+          
+	else
+	   erreur "deja inactif. #{sigle}"
+	end
+     end
+    end
+
+   ARGV.clear
+return  [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 def reactiver( les_cours )
-  [les_cours, nil]
+
+   sigle = ARGV.to_a
+   sigle_invalid(sigle[0])
+   cours_inexiste(sigle[0], les_cours)
+
+  for cour in les_cours do
+     if cour.sigle.to_s =~ /#{sigle.to_s}/
+        if cour.actif? == "INACTIF"
+           cour.activer
+
+        else
+           erreur "deja actif. #{sigle}"
+        end
+     end
+    end
+  ARGV.clear
+return  [les_cours, nil]
 end
 
 def prealables( les_cours )
@@ -244,6 +276,11 @@ end
 def sigle_valide( sigle )
   DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Sigle incorrect: #{sigle}!?" )
 end
+
+def sigle_invalid( sigle )
+  DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Aucun cours. *#{sigle}" )
+end
+
 
 def prea_valide( prea , les_cours )
   if les_cours.size == 0
@@ -272,6 +309,18 @@ def cours_existe ( sigle, les_cours)
   end
 end
 
+def cours_inexiste ( sigle, les_cours)
+
+  cours_existe = false
+  for cours in les_cours do
+    if cours.sigle.to_s =~ /#{sigle.to_s}/
+      cours_existe = true
+    end
+  end
+  if !cours_existe
+    erreur "Aucun cours. *#{sigle}"
+  end
+end
 
 #######################################################
 # Les differentes commandes possibles.
