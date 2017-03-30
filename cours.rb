@@ -29,7 +29,7 @@ class Cours
     
   end
   attr_reader :sigle , :titre, :nb_credits, :prealables
-  attr_writer :actif
+  attr_accessor :actif
 
   #
   # Formate un cours selon les indications specifiees par le_format:
@@ -105,4 +105,4 @@ class Cours
     
   end
 end
-0
+

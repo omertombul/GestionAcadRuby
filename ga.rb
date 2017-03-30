@@ -159,22 +159,35 @@ end
 def ajouter( les_cours )
 
      
-  if ARGV.size > 0
-    sigle, titre,nb_credits, *prealables = ARGV.to_a
-    ARGV.clear  
-  elsif not STDIN.tty? and not STDIN.closed?
-     cour = ARGF.read
-     sigle = cour.match(Motifs::SIGLE).to_s 
-     cour.slice! "#{sigle}"
-     titre = cour.match(/["'][^"]+["']/).to_s
-     titre.slice! "\""
-     titre.slice! "\""
-     cour.slice! "\"#{titre}\""
-     nb_credits = cour.match(/\d/).to_s
-     cour.slice! "#{nb_credits}"
-     cour.strip!
-     prealables = cour.split("  ")
-  end
+   if ARGV.size > 0
+      sigle,titre,nb_credits, *prealables = ARGV.to_a
+      # c = sigle
+      # c += "#{CoursTexte::SEP} #{titre}"
+      # c += "#{CoursTexte::SEP} #{nb_credits}"
+       cour = []
+    cour << sigle
+    cour << titre
+    cour << nb_credits
+     
+     ARGV.clear  
+     
+   end
+    
+   
+  
+  # elsif not STDIN.tty? and not STDIN.closed?
+  #    cour = ARGF.read
+  #    sigle = cour.match(Motifs::SIGLE).to_s 
+  #    cour.slice! "#{sigle}"
+  #    titre = cour.match(/["'][^"]+["']/).to_s
+  #    titre.slice! "\""
+  #    titre.slice! "\""
+  #    cour.slice! "\"#{titre}\""
+  #    nb_credits = cour.match(/\d/).to_s
+  #    cour.slice! "#{nb_credits}"
+  #    cour.strip!
+  #    prealables = cour.split("  ")
+  # end
 
 
     sigle_valide(sigle) 
@@ -185,11 +198,18 @@ def ajouter( les_cours )
         sigle_valide( prea )
         prea_valide(prea, les_cours)
       end
-
+      cour << prealables.join(':')
+    else 
+      cour << nil
     end
+   cour << CoursTexte::ACTIF
 
-    les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
-
+    cour_valide = CoursTexte.creer_cours(cour.join(','))
+    
+   
+  #    c = Cours.new(sigle.to_sym,titre,nb_credits,prealables,CoursTexte::ACTIF)
+     
+     les_cours << cour_valide
     return [les_cours, nil] # A Ameliorer
 end
 
