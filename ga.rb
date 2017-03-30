@@ -199,19 +199,7 @@ def nb_credits( les_cours )
    if ARGV.size == 0
      puts "0"
    elsif
-     for s in sig do
-      sigle_valide(s)
-      trouve = false
-      for cours in les_cours do
-        if cours.sigle.to_s =~ /#{s.to_s}/
-         nb_cr = nb_cr + 3
-         trouve = true 
-        end
-      end
-      if !trouve
-        erreur "Aucun cours: #{s}"
-      end
-      end
+     nb_cr = sig.map{|sigle| get_cours(sigle,les_cours).nb_credits.to_i}.reduce(:+)
       puts nb_cr
    end
 
@@ -304,6 +292,14 @@ def cours_existe ( sigle, les_cours)
 
     fail "Cours avec meme sigle existe deja: #{sigle}"
   end
+end
+
+def get_cours(sigle, les_cours)
+
+  sigle_invalid(sigle)
+  cour = les_cours.find{|c| c.sigle.to_s =~/#{sigle.to_s}/ }
+  erreur "Aucun cours. *#{sigle}" unless !cour.nil?
+  cour
 end
 
 def cours_inexiste ( sigle, les_cours)
