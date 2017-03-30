@@ -49,7 +49,7 @@ describe "GestionAcademique" do
         FileUtils.rm_f bd
       end
 
-      it_ "supprime les divers cours specifies via stdin", :avance do
+     it_ "supprime les divers cours specifies via stdin", :avance do
         avec_fichier 'data.txt', ["  INF1120 MAT3140  ", "  INF2120  "] do
           nouveau_contenu = avec_fichier bd, lignes, :conserver do
             execute_sans_sortie_ou_erreur do

@@ -202,13 +202,19 @@ def nb_credits( les_cours )
      nb_cr = sig.map{|sigle| get_cours(sigle,les_cours).nb_credits.to_i}.reduce(:+)
       puts nb_cr
    end
-
    ARGV.clear
   return [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 def supprimer( les_cours )
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+   if ARGV.size > 0
+     sigles = ARGV.to_a
+     les_cours.delete(get_cours(sigles.shift, les_cours))
+   elsif not STDIN.tty? and not STDIN.closed?
+     cour = ARGF.read
+     cour.scan(/\w+/).map{|sigle| les_cours.delete(get_cours(sigle, les_cours))}
+   end
+ return [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 def trouver( les_cours )
@@ -218,40 +224,16 @@ end
 def desactiver( les_cours )
    
     sigle = ARGV.to_a
-    sigle_invalid(sigle[0])
-    cours_inexiste(sigle[0], les_cours)
-    for cour in les_cours do
-     if cour.sigle.to_s =~ /#{sigle.to_s}/
-  if cour.actif? == "ACTIF"
-           cour.desactiver
-          
-  else
-     erreur "deja inactif. #{sigle}"
-  end
-     end
-    end
-
-   ARGV.clear
+    get_cours(sigle[0],les_cours).desactiver
+    ARGV.clear
 return  [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 def reactiver( les_cours )
 
    sigle = ARGV.to_a
-   sigle_invalid(sigle[0])
-   cours_inexiste(sigle[0], les_cours)
-
-  for cour in les_cours do
-     if cour.sigle.to_s =~ /#{sigle.to_s}/
-        if cour.actif? == "INACTIF"
-           cour.activer
-
-        else
-           erreur "deja actif. #{sigle}"
-        end
-     end
-    end
-  ARGV.clear
+   get_cours(sigle[0],les_cours).activer
+   ARGV.clear
 return  [les_cours, nil]
 end
 
@@ -267,7 +249,7 @@ def sigle_valide( sigle )
 end
 
 def sigle_invalid( sigle )
-  DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Aucun cours. *#{sigle}" )
+  DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Format de sigle incorrect: #{sigle}" )
 end
 
 
@@ -291,29 +273,17 @@ def cours_existe ( sigle, les_cours)
   if cours_existe
 
     fail "Cours avec meme sigle existe deja: #{sigle}"
-  end
+ end
 end
 
 def get_cours(sigle, les_cours)
-
+  
   sigle_invalid(sigle)
   cour = les_cours.find{|c| c.sigle.to_s =~/#{sigle.to_s}/ }
   erreur "Aucun cours. *#{sigle}" unless !cour.nil?
   cour
 end
 
-def cours_inexiste ( sigle, les_cours)
-
-  cours_existe = false
-  for cours in les_cours do
-    if cours.sigle.to_s =~ /#{sigle.to_s}/
-      cours_existe = true
-    end
-  end
-  if !cours_existe
-    erreur "Aucun cours. *#{sigle}"
-  end
-end
 
 #######################################################
 # Les differentes commandes possibles.
