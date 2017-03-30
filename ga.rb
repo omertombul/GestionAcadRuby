@@ -257,11 +257,12 @@ def prea_valide( prea , les_cours )
   if les_cours.size == 0
     fail "Prealables invalide: #{prea}"
   else
-  prea_existe = les_cours.each{|c| c.sigle.to_s =~ /#{prea.to_s}/}
-  if !prea_existe
+    prea_existe = les_cours.each{|c| c.sigle.to_s =~ /#{prea.to_s}/}
+    end
+  if prea_existe.empty?
     fail "Prealables invalide: #{prea}"
   end
-  end
+
 end
 
 def cours_existe ( sigle, les_cours)
