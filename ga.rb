@@ -161,9 +161,6 @@ def ajouter( les_cours )
      
    if ARGV.size > 0
       sigle,titre,nb_credits, *prealables = ARGV.to_a
-      # c = sigle
-      # c += "#{CoursTexte::SEP} #{titre}"
-      # c += "#{CoursTexte::SEP} #{nb_credits}"
        cour = []
     cour << sigle
     cour << titre

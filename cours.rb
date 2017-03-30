@@ -83,7 +83,7 @@ class Cours
   # Rend un cours inactif.
   #
   def desactiver
-    DBC.require( actif?, "Cours pas actif: #{self}" )
+    DBC.require( actif?, "Cours deja inactif: #{self}" )
     @actif = false
     
   end
