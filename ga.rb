@@ -185,6 +185,7 @@ def ajouter( les_cours )
         sigle_valide( prea )
         prea_valide(prea, les_cours)
       end
+
     end
 
     les_cours << Cours.new(sigle.to_sym,titre,nb_credits,prealables)
@@ -233,12 +234,12 @@ def desactiver( les_cours )
     cours_inexiste(sigle[0], les_cours)
     for cour in les_cours do
      if cour.sigle.to_s =~ /#{sigle.to_s}/
-	if cour.actif? == "ACTIF"
+  if cour.actif? == "ACTIF"
            cour.desactiver
           
-	else
-	   erreur "deja inactif. #{sigle}"
-	end
+  else
+     erreur "deja inactif. #{sigle}"
+  end
      end
     end
 
@@ -286,14 +287,10 @@ def prea_valide( prea , les_cours )
   if les_cours.size == 0
     fail "Prealables invalide: #{prea}"
   else
-  for cours in les_cours do
-    if cours.sigle.to_s =~ /#{prea.to_s}/
-      prea_existe = true
-      end
-    end
-  end
+  prea_existe = les_cours.each{|c| c.sigle.to_s =~ /#{prea.to_s}/}
   if !prea_existe
     fail "Prealables invalide: #{prea}"
+  end
   end
 end
 
