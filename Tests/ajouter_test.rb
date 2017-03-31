@@ -139,7 +139,7 @@ describe "GestionAcademique" do
   context "ajout de cours specifie sur stdin" do
     let(:lignes) { IO.readlines("Tests/cours.txt.5+1") }
 
-    _it_ "ajoute un cours sans prealable lorsqu'il n'existe pas", :avance do
+    it_ "ajoute un cours sans prealable lorsqu'il n'existe pas", :avance do
       sigle = 'INF1000'
       titre = "Introduction a l'informatique"
       nb_credits = '3'
@@ -158,7 +158,7 @@ describe "GestionAcademique" do
       FileUtils.rm_f bd
     end
 
-    _it_ "ajoute un cours avec des prealables lorsqu'il n'existe pas", :avance do
+    it_ "ajoute un cours avec des prealables lorsqu'il n'existe pas", :avance do
       sigle = 'INF3143'
       titre = 'Modelisation et specification formelle'
       nb_credits = '3'
@@ -180,7 +180,7 @@ describe "GestionAcademique" do
       FileUtils.rm_f bd
     end
 
-    _it_ "ajoute plusieurs cours lorsqu'ils n'existent pas", :avance do
+    it_ "ajoute plusieurs cours lorsqu'ils n'existent pas", :avance do
       sigle1 = 'INF3143'
       titre1 = 'Modelisation et specification formelle'
       nb_credits1 = '3'
@@ -215,7 +215,7 @@ describe "GestionAcademique" do
     end
 
 
-    _it_ "n'ajoute rien si un des cours specifie a des erreurs", :avance do
+    it_ "n'ajoute rien si un des cours specifie a des erreurs", :avance do
       sigle1 = 'INF3143'
       titre1 = 'Modelisation et specification formelle'
       nb_credits1 = '3'

@@ -168,23 +168,29 @@ def ajouter( les_cours )
      
      ARGV.clear  
      
-   end
-    
-   
+  elsif not STDIN.tty? and not STDIN.closed?
+     cour = []
+      ARGF.each{|c| 
+
+     sigle = c.match(Motifs::SIGLE).to_s  
+     c.slice! "#{sigle}"
+     titre = c.match(/["'][^"]+["']/).to_s
+     titre.slice! "\""
+     titre.slice! "\""
+     c.slice! "\"#{titre}\""
+     nb_credits = c.match(/\d/).to_s
+     c.slice! "#{nb_credits}"
+     c.strip!
+     prealables = c.split("  ")
+
+   } 
   
-  # elsif not STDIN.tty? and not STDIN.closed?
-  #    cour = ARGF.read
-  #    sigle = cour.match(Motifs::SIGLE).to_s 
-  #    cour.slice! "#{sigle}"
-  #    titre = cour.match(/["'][^"]+["']/).to_s
-  #    titre.slice! "\""
-  #    titre.slice! "\""
-  #    cour.slice! "\"#{titre}\""
-  #    nb_credits = cour.match(/\d/).to_s
-  #    cour.slice! "#{nb_credits}"
-  #    cour.strip!
-  #    prealables = cour.split("  ")
-  # end
+   cour << sigle
+    cour << titre
+    cour << nb_credits
+
+    #puts sigle
+  end
 
 
     sigle_valide(sigle) 
