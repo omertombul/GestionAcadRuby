@@ -103,7 +103,7 @@ describe "GestionAcademique" do
         end
       end
 
-     _it_ "affiche tous les cours selon le format indique", :intermediaire do
+     it_ "affiche tous les cours selon le format indique", :intermediaire do
         avec_fichier '.cours.txt', lignes do
           attendu = ["INF1120 => 'Programmation I' (3 cr.)",
                      "INF1130 => 'Mathematiques pour informaticien' (3 cr.)",

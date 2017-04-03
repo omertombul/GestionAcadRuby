@@ -153,20 +153,23 @@ end
 #################################################################
 
 def lister( les_cours )
-  #ARGV.each {|a| recuperer_option(a)}
   
-  recup = recuperer_option # array de 4 positions 
   
-
-  format = recup[0]
-  sep = recup[2]
+  
+   
+    recup = recuperer_option  
+    format = recup[0]
+    sep = recup[2]
+    
+    if !recup[1].nil?
+      cours = les_cours.sort_by(&:sigle)
+    end
+ 
+  cours ||= les_cours.select{|c| c.actif?}
+ 
   sep ||= CoursTexte::SEPARATEUR_PREALABLES
-  ARGV.shift(recup[3])
-
-  puts ARGV.size
-
-  puts "format: #{format}  avec_inactifs? #{recup[1]} et separateur_prealables: #{sep} " 
-
+  cours.each { |e| puts e.to_s(format, sep)  }
+  
   return  [les_cours, nil]
   
 end
@@ -321,7 +324,7 @@ def recuperer_option()
 ARGV.each{|a|
   
   if a.include? format
-    opt = a.split("=")
+    opt = a.split("--format=")
     opt_f = opt[1]
     count += 1
     retour[0] = opt_f
