@@ -153,7 +153,22 @@ end
 #################################################################
 
 def lister( les_cours )
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+  #ARGV.each {|a| recuperer_option(a)}
+  
+  recup = recuperer_option # array de 4 positions 
+  
+
+  format = recup[0]
+  sep = recup[2]
+  sep ||= CoursTexte::SEPARATEUR_PREALABLES
+  ARGV.shift(recup[3])
+
+  puts ARGV.size
+
+  puts "format: #{format}  avec_inactifs? #{recup[1]} et separateur_prealables: #{sep} " 
+
+  return  [les_cours, nil]
+  
 end
 
 def ajouter( les_cours )
@@ -188,8 +203,6 @@ def ajouter( les_cours )
    cour << sigle
     cour << titre
     cour << nb_credits
-
-    #puts sigle
   end
 
 
@@ -208,10 +221,7 @@ def ajouter( les_cours )
    cour << CoursTexte::ACTIF
 
     cour_valide = CoursTexte.creer_cours(cour.join(','))
-    
-   
-  #    c = Cours.new(sigle.to_sym,titre,nb_credits,prealables,CoursTexte::ACTIF)
-     
+  
      les_cours << cour_valide
     return [les_cours, nil] # A Ameliorer
 end
@@ -261,12 +271,45 @@ return  [les_cours, nil]
 end
 
 def prealables( les_cours )
+
   [les_cours, nil] # A MODIFIER/COMPLETER!
 end
 
 #######################################################
 # Fonctions utilitaires
-#######################################################
+####################################################### 
+def recuperer_option()
+  format = "--format="
+  inactif = "--avec_inactifs"
+  sep_prea = "--separateur_prealables="
+  retour = []
+ count = 0
+
+ARGV.each{|a|
+  
+  if a.include? format
+    opt = a.split("=")
+    opt_f = opt[1]
+    count += 1
+    retour[0] = opt_f
+    
+  elsif a.include? inactif
+   
+    count += 1
+    retour[1] = true
+  
+  elsif a.include? sep_prea
+    sep = a.split("=")
+    sep_p = sep[1]
+    count += 1
+    retour[2] = sep_p
+   
+    end
+  }
+    retour[3] = count
+    return retour
+end
+
 def sigle_valide( sigle )
   DBC.require( /^#{Motifs::SIGLE}$/ =~ sigle,"Sigle incorrect: #{sigle}!?" )
 end

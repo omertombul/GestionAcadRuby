@@ -2,14 +2,14 @@ require_relative 'test_helper'
 
 describe "GestionAcademique" do
   describe "lister" do
-    it_ "signale une erreur lorsque le fichier est inexistant", :intermediaire do
+    _it_ "signale une erreur lorsque le fichier est inexistant", :intermediaire do
       FileUtils.rm_f '.cours.txt'
       genere_erreur( /fichier.*[.]cours.txt.*existe pas/ ) do
         ga( 'lister' )
       end
     end
 
-    it_ "liste un fichier vide" do
+    _it_ "liste un fichier vide" do
       avec_fichier '.cours.txt'do
         execute_sans_sortie_ou_erreur do
           ga( 'lister' )
@@ -17,7 +17,7 @@ describe "GestionAcademique" do
       end
     end
 
-    it_ "liste uniquement, par defaut, les cours actifs" do
+    _it_ "liste uniquement, par defaut, les cours actifs" do
       lignes = IO.readlines("Tests/cours.txt.5+1")
       attendu = ['INF1120 "Programmation I" ()',
                  'INF1130 "Mathematiques pour informaticien" ()',
@@ -33,7 +33,7 @@ describe "GestionAcademique" do
       end
     end
 
-    it_ "liste les cours inactifs lorsque requis", :intermediaire do
+    _it_ "liste les cours inactifs lorsque requis", :intermediaire do
       lignes = IO.readlines("Tests/cours.txt.5+1")
       attendu = ['INF1120 "Programmation I" ()',
                  'INF1130 "Mathematiques pour informaticien" ()',
@@ -49,7 +49,7 @@ describe "GestionAcademique" do
       end
     end
 
-    it_ "liste les cours avec un format explicite et separateur prealables par defaut", :intermediaire do
+    _it_ "liste les cours avec un format explicite et separateur prealables par defaut", :intermediaire do
       lignes = IO.readlines("Tests/cours.txt.5+1")
       attendu = ['INF1120 "Programmation I" ()',
                  'INF1130 "Mathematiques pour informaticien" ()',
@@ -101,14 +101,14 @@ describe "GestionAcademique" do
       let(:lignes) { IO.readlines("Tests/cours.txt.5+1") }
       let(:fichier) { '.foo.txt' }
 
-      it_ "signale une erreur lorsque le depot est inexistant", :intermediaire do
+      _it_ "signale une erreur lorsque le depot est inexistant", :intermediaire do
         FileUtils.rm_f fichier
         genere_erreur( /fichier.*#{fichier}.*existe pas/ ) do
           ga( "--depot=#{fichier} lister" )
         end
       end
 
-      it_ "ajoute un cours s'il n'existe pas", :intermediaire do
+      _it_ "ajoute un cours s'il n'existe pas", :intermediaire do
         attendu = ['INF1120 "Programmation I" ()',
                    'INF1130 "Mathematiques pour informaticien" ()',
                    'INF2120 "Programmation II" (INF1120)',
