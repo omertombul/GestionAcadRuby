@@ -251,8 +251,40 @@ def supprimer( les_cours )
 end
 
 def trouver( les_cours )
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+
+ options = recuperer_option()
+ 
+   if options.include? "--avec_inactifs" 
+
+    resultat = les_cours.select { |cours|  /#{ARGV[0]}/i =~ cours.titre.to_s }
+    resultat1 = les_cours.select { |cours| /#{ARGV[0]}/i =~ cours.sigle.to_s }
+    resultat = resultat+resultat1
+    
+  else
+    resultat = les_cours.select { |cours| cours.actif? }
+    resultat = resultat.select { |cours| /#{ARGV[0]}/i =~ cours.titre.to_s }
+  end
+  
+  if options.include? "titre"
+   
+    resultat = resultat.sort_by(&:titre)
+  elsif options.include? "sigle"
+    resultat = resultat.sort_by(&:sigle)
+  end
+  #if options[0]
+  # puts options[0]
+  #else
+  # puts "no"
+  #end
+   puts resultat
+
+   ARGV.shift
+
+  return [les_cours, nil] # A MODIFIER/COMPLETER!
 end
+
+
+
 
 def desactiver( les_cours )
    
@@ -282,7 +314,8 @@ def recuperer_option()
   format = "--format="
   inactif = "--avec_inactifs"
   sep_prea = "--separateur_prealables="
-  retour = []
+  tri = "--cle_tri="
+   retour = []
  count = 0
 
 ARGV.each{|a|
@@ -292,21 +325,23 @@ ARGV.each{|a|
     opt_f = opt[1]
     count += 1
     retour[0] = opt_f
-    
   elsif a.include? inactif
-   
     count += 1
-    retour[1] = true
-  
+    retour[1] = inactif
   elsif a.include? sep_prea
     sep = a.split("=")
     sep_p = sep[1]
     count += 1
     retour[2] = sep_p
-   
+  elsif a.include? tri
+    t = a.split("=")
+    cle = t[1]
+    retour[3] = cle
+    count +=1
     end
   }
-    retour[3] = count
+    ARGV.shift(count)
+    retour[4] = count
     return retour
 end
 

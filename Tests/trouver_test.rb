@@ -2,7 +2,7 @@ require_relative 'test_helper'
 
 describe "GestionAcademique" do
   describe "trouver" do
-    it_ "signale une erreur lorsque le fichier est inexistant", :intermediaire do
+   it_ "signale une erreur lorsque le fichier est inexistant", :intermediaire do
       FileUtils.rm_f '.cours.txt'
       genere_erreur( /fichier.*[.]cours.txt.*existe pas/ ) do
         ga( 'trouver' )
@@ -34,7 +34,7 @@ describe "GestionAcademique" do
                        'INF3135 "Construction et maintenance de logiciels" (INF1120)'] }
 
 
-      it_ "trouve toutes les lignes avec un caractere quelconque" do
+     it_ "trouve toutes les lignes avec un caractere quelconque" do
         avec_fichier '.cours.txt', lignes do
           genere_sortie( attendu ) do
             ga( 'trouver .' )
@@ -50,7 +50,7 @@ describe "GestionAcademique" do
         end
       end
 
-      it_ "trouve les lignes matchant une chaine specifique mais parmi les actifs seulement" do
+     it_ "trouve les lignes matchant une chaine specifique mais parmi les actifs seulement" do
         avec_fichier '.cours.txt', lignes do
           attendu = ['INF1120 "Programmation I" ()',
                      'INF1130 "Mathematiques pour informaticien" ()',
@@ -103,7 +103,7 @@ describe "GestionAcademique" do
         end
       end
 
-     it_ "affiche tous les cours selon le format indique", :intermediaire do
+     _it_ "affiche tous les cours selon le format indique", :intermediaire do
         avec_fichier '.cours.txt', lignes do
           attendu = ["INF1120 => 'Programmation I' (3 cr.)",
                      "INF1130 => 'Mathematiques pour informaticien' (3 cr.)",
