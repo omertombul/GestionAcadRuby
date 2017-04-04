@@ -157,7 +157,6 @@ def lister( les_cours )
   recup = recuperer_option  
   format = recup[0]
   sep = recup[2]
-    
     if !recup[1].nil?
       cours = les_cours.sort_by(&:sigle)
     end
@@ -251,8 +250,9 @@ end
 
 def trouver( les_cours )
 
- options = recuperer_option()
- 
+  options = recuperer_option()
+  format = options[0]
+  sep = options[2]
    if options.include? "--avec_inactifs" 
 
     resultat = les_cours.select { |cours|  /#{ARGV[0]}/i =~ cours.titre.to_s }
@@ -270,15 +270,14 @@ def trouver( les_cours )
   elsif options.include? "sigle"
     resultat = resultat.sort_by(&:sigle)
   end
-  #if options[0]
-  # puts options[0]
-  #else
-  # puts "no"
-  #end
+
+   if !format.nil?
+     resultat.each{ |e| puts e.to_s(format, sep)  }
+   else
    puts resultat
+   end
 
    ARGV.shift
-
   return [les_cours, nil] 
 end
 

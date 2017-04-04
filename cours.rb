@@ -60,8 +60,8 @@ class Cours
     elsif !(/%[^PCATS-]/ =~ le_format)
 	   le_format = le_format.gsub(/%-*\d*S/,"#{sigle}")
 	   le_format = le_format.gsub(/%.*\d*S/,"#{sigle}")
-     le_format = le_format.gsub(/%-*\d*T/,"#{titre}")
-     le_format = le_format.gsub("%C","#{nb_credits}")
+           le_format = le_format.gsub(/%-*\d*T/,"#{titre}")
+           le_format = le_format.gsub("%C","#{nb_credits}")
 	   le_format = le_format.gsub("%P","#{prealables.join(separateur_prealables)}")
 	   le_format = le_format.gsub("%A","#{actif?}")
 
