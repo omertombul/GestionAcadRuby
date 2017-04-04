@@ -301,23 +301,50 @@ return  [les_cours, nil]
 end
 
 def prealables( les_cours )
-
+ 
+  option = recuperer_option
+  
+  
+  if !option[5].nil?
+ 
+   cour = get_cours(ARGV[0],les_cours)
+   prea = recuperer_prealables(cour.prealables, les_cours)
+  
+   
+  else
+    cour = get_cours(ARGV[0],les_cours)
+    prea = cour.prealables
+  end
+  ARGV.shift
+  puts prea
   [les_cours, nil] 
 end
 
 #######################################################
 # Fonctions utilitaires
 ####################################################### 
+def recuperer_prealables(liste_prea, les_cours)
+    prealables = []
+    liste_prea.each do |p|
+      prealables << p
+      cour = get_cours(p.to_s, les_cours)
+    end
+
+    prealables
+  
+end
+
 def recuperer_option()
   format = "--format="
   inactif = "--avec_inactifs"
   sep_prea = "--separateur_prealables="
   tri = "--cle_tri="
+  tous = "--tous"
    retour = []
  count = 0
 
 ARGV.each{|a|
-  
+ 
   if a.include? format
     opt = a.split("--format=")
     opt_f = opt[1]
@@ -335,7 +362,10 @@ ARGV.each{|a|
     t = a.split("=")
     cle = t[1]
     retour[3] = cle
-    count +=1
+    count += 1
+  elsif a.include? tous
+    retour[5] = tous 
+    count += 1
     end
   }
     ARGV.shift(count)
