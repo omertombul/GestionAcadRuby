@@ -225,6 +225,7 @@ def ajouter( les_cours )
 end
 
 def nb_credits( les_cours )
+   
    nb_cr = 0 
    sig = ARGV.to_a
    if ARGV.size == 0
@@ -234,10 +235,12 @@ def nb_credits( les_cours )
       puts nb_cr
    end
    ARGV.clear
+  
   return [les_cours, nil] 
 end
 
 def supprimer( les_cours )
+   
    if ARGV.size > 0
      sigles = ARGV.to_a
      les_cours.delete(get_cours(sigles.shift, les_cours))
@@ -245,6 +248,7 @@ def supprimer( les_cours )
      cour = ARGF.read
      cour.scan(/\w+/).map{|sigle| les_cours.delete(get_cours(sigle, les_cours))}
    end
+ 
  return [les_cours, nil] 
 end
 
@@ -276,8 +280,8 @@ def trouver( les_cours )
    else
    puts resultat
    end
-
-   ARGV.shift
+  ARGV.shift
+  
   return [les_cours, nil] 
 end
 
@@ -289,6 +293,7 @@ def desactiver( les_cours )
     sigle = ARGV.to_a
     get_cours(sigle[0],les_cours).desactiver
     ARGV.clear
+
 return  [les_cours, nil] 
 end
 
@@ -297,6 +302,7 @@ def reactiver( les_cours )
    sigle = ARGV.to_a
    get_cours(sigle[0],les_cours).activer
    ARGV.clear
+
 return  [les_cours, nil]
 end
 
@@ -304,17 +310,14 @@ def prealables( les_cours )
  
   option = recuperer_option
   
-  
   if !option[5].nil?
- 
    cour = get_cours(ARGV[0],les_cours)
    prea = recuperer_prealables(cour.prealables, les_cours)
-  
-   
   else
     cour = get_cours(ARGV[0],les_cours)
     prea = cour.prealables
   end
+  
   ARGV.shift
   puts prea
   [les_cours, nil] 
@@ -340,8 +343,8 @@ def recuperer_option()
   sep_prea = "--separateur_prealables="
   tri = "--cle_tri="
   tous = "--tous"
-   retour = []
- count = 0
+  retour = []
+  count = 0
 
 ARGV.each{|a|
  
