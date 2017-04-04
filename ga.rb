@@ -154,20 +154,17 @@ end
 
 def lister( les_cours )
   
-  
-  
-   
-    recup = recuperer_option  
-    format = recup[0]
-    sep = recup[2]
+  recup = recuperer_option  
+  format = recup[0]
+  sep = recup[2]
     
     if !recup[1].nil?
       cours = les_cours.sort_by(&:sigle)
     end
  
   cours ||= les_cours.select{|c| c.actif?}
- 
   sep ||= CoursTexte::SEPARATEUR_PREALABLES
+  cours =cours.sort_by(&:sigle)
   cours.each { |e| puts e.to_s(format, sep)  }
   
   return  [les_cours, nil]
@@ -200,10 +197,8 @@ def ajouter( les_cours )
      c.slice! "#{nb_credits}"
      c.strip!
      prealables = c.split("  ")
-
    } 
-  
-   cour << sigle
+    cour << sigle
     cour << titre
     cour << nb_credits
   end
@@ -226,7 +221,8 @@ def ajouter( les_cours )
     cour_valide = CoursTexte.creer_cours(cour.join(','))
   
      les_cours << cour_valide
-    return [les_cours, nil] # A Ameliorer
+
+    return [les_cours, nil] 
 end
 
 def nb_credits( les_cours )
@@ -239,7 +235,7 @@ def nb_credits( les_cours )
       puts nb_cr
    end
    ARGV.clear
-  return [les_cours, nil] # A MODIFIER/COMPLETER!
+  return [les_cours, nil] 
 end
 
 def supprimer( les_cours )
@@ -250,7 +246,7 @@ def supprimer( les_cours )
      cour = ARGF.read
      cour.scan(/\w+/).map{|sigle| les_cours.delete(get_cours(sigle, les_cours))}
    end
- return [les_cours, nil] # A MODIFIER/COMPLETER!
+ return [les_cours, nil] 
 end
 
 def trouver( les_cours )
@@ -283,7 +279,7 @@ def trouver( les_cours )
 
    ARGV.shift
 
-  return [les_cours, nil] # A MODIFIER/COMPLETER!
+  return [les_cours, nil] 
 end
 
 
@@ -294,7 +290,7 @@ def desactiver( les_cours )
     sigle = ARGV.to_a
     get_cours(sigle[0],les_cours).desactiver
     ARGV.clear
-return  [les_cours, nil] # A MODIFIER/COMPLETER!
+return  [les_cours, nil] 
 end
 
 def reactiver( les_cours )
@@ -307,7 +303,7 @@ end
 
 def prealables( les_cours )
 
-  [les_cours, nil] # A MODIFIER/COMPLETER!
+  [les_cours, nil] 
 end
 
 #######################################################
