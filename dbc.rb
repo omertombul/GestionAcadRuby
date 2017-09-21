@@ -19,7 +19,7 @@ module DBC
   def assert( condition, message = nil )
     fail "Assertion non satisfaite: #{message}" unless condition
   end
-
+  #idsids
   # Verifie une precondition (antecedent).
   #
   # @param (see #assert)
